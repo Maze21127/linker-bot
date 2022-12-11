@@ -96,7 +96,7 @@ def create_link(tg_id: int, source: str, redirect: None | str = None, domain='qo
         return link
     else:
         link = redirect
-    domain_id = Domain.query.filter(Domain.name == domain).first()
+    domain_id = session.query(Domain).filter(Domain.name == domain).first()
     url = Url(source=source, redirect=link, user_id=tg_id, domain_id=domain_id.id)
     session.add(url)
     session.commit()
