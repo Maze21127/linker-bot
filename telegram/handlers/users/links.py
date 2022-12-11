@@ -101,6 +101,9 @@ async def waiting_redirect_url(message: types.Message, state: FSMContext):
     if len(answer) >= 25:
         return await message.answer(get_message(language_code, 'long_link'))
 
+    if not is_correct(answer):
+        return await message.answer(get_message(language_code, 'bad_link'))
+
     result = await api.check_link_existing(answer, domain)
 
     if result['status'] == 'already exist':

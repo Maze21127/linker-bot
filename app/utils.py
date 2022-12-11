@@ -21,4 +21,4 @@ def remove_port_from_ip(ip: str):
         return re.match(remove_port_regex, ip).group(0)
     except AttributeError:
         return ""
-    return ""
+
