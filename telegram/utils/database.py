@@ -90,13 +90,14 @@ def is_link_exist(source: str):
     return session.query(Url).filter(Url.source == source).first() is not None
 
 
-def create_link(tg_id: int, source: str, redirect: None | str = None):
+def create_link(tg_id: int, source: str, redirect: None | str = None, domain='qooby.ru'):
     if redirect is None:
         link = _generate_url()
         return link
     else:
         link = redirect
-    url = Url(source=source, redirect=link, user_id=tg_id)
+    domain_id = Domain.query.filter(Domain.name == domain).first()
+    url = Url(source=source, redirect=link, user_id=tg_id, domain_id=domain_id.id)
     session.add(url)
     session.commit()
     logger.info(f"{source}\n{link} добавлен")

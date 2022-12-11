@@ -171,7 +171,7 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
     result = await api.create_personal_link(source=answer, link=redirect_link, domain=domain)
 
     if result is LinkStatus.SUCCESS:
-        create_link(message['from']['id'], answer, redirect_link)
+        create_link(message['from']['id'], answer, redirect_link, domain=domain)
         await message.answer(f"Ссылка успешно куплена\n{domain}/{redirect_link}",
                              reply_markup=get_keyboard(user['language_code'], 'links'))
     elif result is LinkStatus.SOURCE_LINK_EXIST:
