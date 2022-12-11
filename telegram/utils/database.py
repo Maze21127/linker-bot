@@ -93,6 +93,7 @@ def is_link_exist(source: str):
 def create_link(tg_id: int, source: str, redirect: None | str = None):
     if redirect is None:
         link = _generate_url()
+        return link
     else:
         link = redirect
     url = Url(source=source, redirect=link, user_id=tg_id)

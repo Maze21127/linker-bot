@@ -143,10 +143,11 @@ async def waiting_free_source_url(message: types.Message, state: FSMContext):
     if not await check_access_link(answer):
         return await message.answer(get_message(message['from']['language_code'], 'bad_link'))
 
-    answer = create_link(message['from']['id'], answer)
+    link = create_link(message['from']['id'], answer)
+    result = await api.create_personal_link(source=answer, link=link, domain="qooby.ru")
 
-    if answer['status'] is LinkStatus.SUCCESS:
-        await message.answer(f"{answer['link']}", reply_markup=get_keyboard(user['language_code'], 'links'))
+    if result['status'] is LinkStatus.SUCCESS:
+        await message.answer(f"http://qooby.ru/{link}", reply_markup=get_keyboard(user['language_code'], 'links'))
 
     await state.finish()
 
@@ -252,8 +253,8 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
         return await message.answer(get_message(language_code, 'links'),
                                     reply_markup=get_keyboard(user['language_code'], 'links'))
 
-    # if not await check_access_link(answer):
-    #     return await message.answer(get_message(message['from']['language_code'], 'bad_link'))
+    if not await check_access_link(answer):
+        return await message.answer(get_message(message['from']['language_code'], 'bad_link'))
 
     data = await state.get_data()
     link_name = data.get("link_name")
