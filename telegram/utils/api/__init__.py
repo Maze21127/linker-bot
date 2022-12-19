@@ -71,7 +71,7 @@ async def add_link_to_group(source: str, link_name: str, domain: str, group_name
 async def check_access_link(link: str):
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.get(link, timeout=5) as resp:
+            async with session.get(link, timeout=15) as resp:
                 return resp.status == 200
         except aiohttp.client.InvalidURL:
             return False
