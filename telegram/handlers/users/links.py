@@ -2,7 +2,6 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from logger import logger
-from settings import BASIC_URL
 from telegram.keyboards.default import LINKS, get_keyboard, CANCEL
 from telegram.keyboards.inline.domain import get_domain_keyboard
 from telegram.keyboards.inline.groups import get_groups_keyboard
@@ -29,7 +28,7 @@ async def show(message: types.Message):
     if not links:
         links_message = get_message(user['language_code'], 'no_links')
     else:
-        links_message = "\n".join([f"{i.source}\n{i.domain_name}/{i.redirect} - {i.uses}" for i in links])
+        links_message = "\n".join([f"{i.source}\n{i.domain_name}/{i.redirect} - {i.uses}\n" for i in links])
     result_message = get_message(user['language_code'], 'your_groups') + groups_message + "\n" + links_message \
         if groups_message is not None else links_message
     await message.answer(result_message, disable_web_page_preview=True)
