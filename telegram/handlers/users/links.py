@@ -170,6 +170,10 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
     if not await check_access_link(answer):
         return await message.answer(get_message(message['from']['language_code'], 'bad_link'))
 
+    print(answer)
+    print(redirect_link)
+    print(domain)
+    return
     result = await api.create_personal_link(source=answer, link=redirect_link, domain=domain)
 
     if result is LinkStatus.SUCCESS:
