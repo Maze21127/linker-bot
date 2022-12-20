@@ -72,7 +72,6 @@ async def check_access_link(link: str):
     async with aiohttp.ClientSession() as session:
         try:
             async with session.get(link, timeout=15) as resp:
-                print(resp.status)
-                return resp.status == 200
+                return resp.status in (200, 403)
         except aiohttp.client.InvalidURL:
             return False
