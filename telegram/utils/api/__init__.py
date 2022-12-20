@@ -48,6 +48,7 @@ async def create_personal_link(source: str, link: str, domain: str):
                 else LINK_STATUSES['error']
     if status is LinkStatus.SUCCESS:
         pass
+    print(status)
     return status
 
 
