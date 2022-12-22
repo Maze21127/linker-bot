@@ -146,6 +146,7 @@ async def waiting_free_source_url(message: types.Message, state: FSMContext):
         return await message.answer(get_message(message['from']['language_code'], 'bad_link'))
 
     link = create_link(message['from']['id'], answer)
+    create_link(message['from']['id'], answer, link, domain='qooby.ru')
     result = await api.create_personal_link(source=answer, link=link, domain="qooby.ru")
 
     if result is LinkStatus.SUCCESS:
