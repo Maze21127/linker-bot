@@ -272,8 +272,8 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
     if domain['status'] is not LinkStatus.SUCCESS:
         return await message.answer("ERROR")
 
-    logger.debug(f"start adding {domain.name}")
-    result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain.name,
+    logger.debug(f"start adding {domain}")
+    result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain,
                                          group_name=group_name)
     logger.debug(result)
 
