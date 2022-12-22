@@ -1,5 +1,6 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.types import ReplyKeyboardRemove
 
 from logger import logger
 from telegram.keyboards.default import LINKS, get_keyboard, CANCEL
@@ -47,6 +48,8 @@ async def start(message: types.Message):
 
 @dp.message_handler(lambda message: message.text in LINKS['buy'].values())
 async def buy(message: types.Message):
+    state = dp.current_state()
+    await state.finish()
     user = message['from']
 
     kb = get_domain_keyboard(False)
