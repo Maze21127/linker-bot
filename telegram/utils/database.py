@@ -123,7 +123,8 @@ def add_group(tg_id: int, group_name: str, domain_name: str):
 
 def get_domain_for_group(group_name: str, tg_id: int):
     try:
-        domain = session.query(Group).filter(Group.name == group_name, Group.user_id == tg_id).first().name
+        domain_id = session.query(Group).filter(Group.name == group_name, Group.user_id == tg_id).first().id
+        domain = session.query(Domain).filter(Domain.id == domain_id).first().name
         return {"status": LinkStatus.SUCCESS, "domain": domain}
     except Exception as ex:
         logger.exception(ex)
