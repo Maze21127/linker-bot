@@ -153,7 +153,8 @@ async def waiting_free_source_url(message: types.Message, state: FSMContext):
     result = await api.create_personal_link(source=answer, link=link, domain="qooby.ru")
 
     if result is LinkStatus.SUCCESS:
-        await message.answer(f"http://qooby.ru/{link}", reply_markup=get_keyboard(user['language_code'], 'links'))
+        await message.answer(f"http://qooby.ru/{link}", reply_markup=get_keyboard(user['language_code'], 'links'),
+                             disable_web_page_preview=True)
 
     await state.finish()
 
@@ -179,7 +180,8 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
     if result is LinkStatus.SUCCESS:
         create_link(message['from']['id'], answer, redirect_link, domain=domain)
         await message.answer(f"Ссылка успешно куплена\n{domain}/{redirect_link}",
-                             reply_markup=get_keyboard(user['language_code'], 'links'))
+                             reply_markup=get_keyboard(user['language_code'], 'links'),
+                             disable_web_page_preview=True)
     elif result is LinkStatus.SOURCE_LINK_EXIST:
         return await message.answer(f"Такая ссылка уже существует",
                                     reply_markup=get_keyboard(user['language_code'], 'links'))
