@@ -133,6 +133,10 @@ def get_domain_for_group(group_name: str, tg_id: int):
 
 def get_groups(tg_id: int) -> list[Group]:
     groups = session.query(Group).filter(Group.user_id == tg_id).all()
+    domains = session.query(Domain).all()
+    domains_dict = {i.id: i.name for i in domains}
+    for i in groups:
+        i.domain_name = domains_dict[i.domain_id]
     return sorted(groups, key=lambda x: x.id)
 
 

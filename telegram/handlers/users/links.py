@@ -24,7 +24,7 @@ async def show(message: types.Message):
     user = message['from']
     links = get_links(user['id'])
     groups = get_groups(user['id'])
-    groups_message = "\n" + "\n".join([f"{i.name}\n" for i in groups]) if groups else None
+    groups_message = "\n" + "\n".join([f"http://{i.domain_name}/{i.name}\n" for i in groups]) if groups else None
 
     if not links:
         links_message = get_message(user['language_code'], 'no_links')
@@ -69,7 +69,7 @@ async def group(message: types.Message):
 
 
 @dp.callback_query_handler(state=[CreatePersonalLink.waiting_domain, CreateGroup.waiting_domain])
-async def waiting_domain(callback_query: types. CallbackQuery, state: FSMContext):
+async def waiting_domain(callback_query: types.CallbackQuery, state: FSMContext):
     domain = callback_query.data
     user = callback_query.from_user
     await state.update_data(domain=domain)
@@ -129,8 +129,8 @@ async def waiting_redirect_url(message: types.Message, state: FSMContext):
             await message.answer(f"{success_message}\n{result['link']}",
                                  reply_markup=get_keyboard(language_code, 'links'))
             await state.finish()
-        #await CreateGroup.waiting_payment.set()
-        #return await message.answer(get_message(message['from']['language_code'], 'payment_link'))
+        # await CreateGroup.waiting_payment.set()
+        # return await message.answer(get_message(message['from']['language_code'], 'payment_link'))
 
 
 @dp.message_handler(state=CreateFreeLink.waiting_source_url)
@@ -216,7 +216,7 @@ async def add(message: types.Message):
 
 
 @dp.callback_query_handler(state=AddToGroup.waiting_group_name)
-async def waiting_domain(callback_query: types. CallbackQuery, state: FSMContext):
+async def waiting_domain(callback_query: types.CallbackQuery, state: FSMContext):
     group_name = callback_query.data
     user = callback_query.from_user
     await state.update_data(group_name=group_name)
@@ -270,7 +270,8 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
 
     domain = get_domain_for_group(group_name, user['id'])
     if domain['status'] is not LinkStatus.SUCCESS:
-        return await message.answer("ERROR")
+        return await message.answer(f"Что-то пошло не так, попробуйте еще раз",
+                                    reply_markup=get_keyboard(user['language_code'], 'links'))
 
     logger.debug(f"start adding {domain}")
     result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain['domain'],
