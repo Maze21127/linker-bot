@@ -272,7 +272,7 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
     if domain['status'] is not LinkStatus.SUCCESS:
         return await message.answer("ERROR")
 
-    result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain, group_name=group_name)
+    result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain['domain'], group_name=group_name)
 
     if result is LinkStatus.SUCCESS:
         logger.info(f"{user['id']} добавил ссылку {link_name} в группу {group_name}")
