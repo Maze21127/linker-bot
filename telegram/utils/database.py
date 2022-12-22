@@ -97,9 +97,9 @@ def create_link(tg_id: int, source: str, redirect: None | str = None, domain='qo
     else:
         link = redirect
     domain_id = session.query(Domain).filter(Domain.name == domain).first()
-    checking = session.query(Url).filter(Url.source == source, Url.domain_id == domain_id, Url.redirect == redirect).first()
+    checking = session.query(Url).filter(Url.source == source, Url.domain_id == domain_id.id, Url.redirect == redirect).first()
     if checking:
-        return {"status": LinkStatus.ALREADY, "link": f"{BASIC_URL}/{link}"}
+        return {"status": LinkStatus.SOURCE_LINK_EXIST, "link": f"{BASIC_URL}/{link}"}
     url = Url(source=source, redirect=link, user_id=tg_id, domain_id=domain_id.id)
     session.add(url)
     session.commit()
