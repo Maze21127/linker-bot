@@ -273,7 +273,7 @@ async def waiting_source_url(message: types.Message, state: FSMContext):
         return await message.answer("ERROR")
 
     logger.debug(f"start adding {domain}")
-    result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain['domain'],
+    result = await api.add_link_to_group(source=answer, link_name=link_name, domain=domain,
                                          group_name=group_name)
     logger.debug(result)
 
