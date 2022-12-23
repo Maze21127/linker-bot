@@ -24,7 +24,7 @@ async def show(message: types.Message):
     user = message['from']
     links = get_links(user['id'])
     groups = get_groups(user['id'])
-    groups_message = "\n" + "\n".join([f"http://{i.domain_name}/{i.name}\n" for i in groups]) if groups else None
+    groups_message = "\n" + "\n".join([f"https://{i.domain_name}/{i.name}\n" for i in groups]) if groups else None
 
     if not links:
         links_message = get_message(user['language_code'], 'no_links')
@@ -153,7 +153,7 @@ async def waiting_free_source_url(message: types.Message, state: FSMContext):
     result = await api.create_personal_link(source=answer, link=link, domain="qooby.ru")
 
     if result is LinkStatus.SUCCESS:
-        await message.answer(f"http://qooby.ru/{link}", reply_markup=get_keyboard(user['language_code'], 'links'),
+        await message.answer(f"https://qooby.ru/{link}", reply_markup=get_keyboard(user['language_code'], 'links'),
                              disable_web_page_preview=True)
 
     await state.finish()

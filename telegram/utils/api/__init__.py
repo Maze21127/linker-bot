@@ -11,7 +11,7 @@ LINK_STATUSES = {
 
 async def check_link_existing(link: str, domain: str):
     async with aiohttp.ClientSession() as session:
-        url = f"http://{domain}/api/v1/check_link/{link}"
+        url = f"https://{domain}/api/v1/check_link/{link}"
         async with session.get(url) as resp:
             response = await resp.json()
             return response
@@ -19,7 +19,7 @@ async def check_link_existing(link: str, domain: str):
 
 async def create_group(group_name: str, domain: str, tg_id: int):
     async with aiohttp.ClientSession() as session:
-        url = f"http://{domain}/api/v1/create_group/"
+        url = f"https://{domain}/api/v1/create_group/"
         data = {
             'group_name': group_name,
             'tg_id': tg_id
@@ -37,7 +37,7 @@ async def create_group(group_name: str, domain: str, tg_id: int):
 
 async def create_personal_link(source: str, link: str, domain: str):
     async with aiohttp.ClientSession() as session:
-        url = f"http://{domain}/api/v1/create_link/"
+        url = f"https://{domain}/api/v1/create_link/"
         data = {
             'source': source,
             'link': link,
@@ -53,7 +53,7 @@ async def create_personal_link(source: str, link: str, domain: str):
 
 async def add_link_to_group(source: str, link_name: str, domain: str, group_name: str):
     async with aiohttp.ClientSession() as session:
-        url = f"http://{domain}/api/v1/add_link/"
+        url = f"https://{domain}/api/v1/add_link/"
         data = {
             'source': source,
             'link_name': link_name,
